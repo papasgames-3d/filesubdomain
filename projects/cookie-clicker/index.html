@@ -20,6 +20,25 @@
   Object.defineProperty(window, 'top', {
     get: function() { return window; }
   });
+
+  // Bỏ qua thông báo "This is taking longer than expected"
+  window.addEventListener('DOMContentLoaded', function() {
+    // Ẩn thông báo lỗi
+    var failedToLoad = document.getElementById('failedToLoad');
+    if (failedToLoad) failedToLoad.style.display = 'none';
+    
+    // Buộc tiếp tục tải game sau 3 giây
+    setTimeout(function() {
+      if (window.Game && !window.Game.ready) {
+        // Nếu Game chưa sẵn sàng, buộc nó tải
+        try {
+          window.Game.Load();
+        } catch(e) {
+          console.log('Forced game loading');
+        }
+      }
+    }, 3000);
+  });
 </script>
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
